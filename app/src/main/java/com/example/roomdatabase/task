@@ -1,0 +1,11 @@
+"1) Learn Room database and its Feature
+2) Demo App : CrudOperation Add,Update, Delete, Search using Recycle View and Room Database
+
+Employee List
+- Name, Gender, BirthDate,Salary
+- Edit Icon,Delete Icon
+
+3) Add Search Bar to Search base on Name.
+4) Add Sorting features: Sort the record base on name
+
+5) Room Database Join Query"
