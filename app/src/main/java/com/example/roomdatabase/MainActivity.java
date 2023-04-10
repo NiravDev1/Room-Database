@@ -66,10 +66,19 @@ public class MainActivity extends AppCompatActivity implements EmpAdapter.EmpDU 
         employeeDAO = employeeDB.employeeDAO();
         emplist = new ArrayList<>();
         emplist = (ArrayList<Employee>) employeeDAO.getallemp();
+
+
         // TODO: 08-04-2023  recylerview work------------------------------------------------------------
         b.empRecyclerviewId.setLayoutManager(new LinearLayoutManager(this));
         empAdapter = new EmpAdapter(this, emplist, this);
         b.empRecyclerviewId.setAdapter(empAdapter);
+        empAdapter.cleardata();
+
+        List<Employee> employeeList = employeeDAO.getallemp();
+        for (int i = 0; i < employeeList.size(); i++) {
+            Employee employee = employeeList.get(i);
+            emplist.add(employee);
+        }
 
         // TODO: 09-04-2023  Searchview -----------------------------------------------------------------
         b.serarchViewId.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -134,7 +143,10 @@ public class MainActivity extends AppCompatActivity implements EmpAdapter.EmpDU 
                             employee = new Employee(0, NameEMP, SalaryEMP, DOBEMP, GenderEMp);
                             System.out.println(employee + "qqqq");
                             employeeDAO.Insert_emp(employee);
-                            empAdapter.addEmp(employee);
+//                            empAdapter.addEmp(employee);
+                            emplist.add(employee);
+                            empAdapter.notifyDataSetChanged();
+
                             Toast.makeText(MainActivity.this, "Add Successfully", Toast.LENGTH_SHORT).show();
                             nameEmp.setText(null);
                             salaryEmp.setText(null);
@@ -186,17 +198,17 @@ public class MainActivity extends AppCompatActivity implements EmpAdapter.EmpDU 
         datePickerDialog.show();
     }
 
-    private void fetchdata() {
-        empAdapter.cleardata();
-        List<Employee> employeeList = employeeDAO.getallemp();
-        for (int i = 0; i < employeeList.size(); i++) {
-            Employee employee = employeeList.get(i);
-            empAdapter.addEmp(employee);
-            empAdapter.notifyDataSetChanged();
-        }
-        empAdapter.notifyDataSetChanged();
-
-    }
+//    private void fetchdata() {
+//        empAdapter.cleardata();
+//        List<Employee> employeeList = employeeDAO.getallemp();
+//        for (int i = 0; i < employeeList.size(); i++) {
+//            Employee employee = employeeList.get(i);
+//            employeeList.add(employee);
+//            empAdapter.notifyDataSetChanged();
+//        }
+//        empAdapter.notifyDataSetChanged();
+//
+//    }
 
 
     @Override
@@ -218,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements EmpAdapter.EmpDU 
     @Override
     protected void onResume() {
         super.onResume();
-        fetchdata();
+//        fetchdata();
 
     }
 
@@ -232,8 +244,7 @@ public class MainActivity extends AppCompatActivity implements EmpAdapter.EmpDU 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId()==R.id.sort_m_id)
-        {
+        if (item.getItemId() == R.id.sort_m_id) {
             Toast.makeText(this, "sort", Toast.LENGTH_SHORT).show();
             sort();
             empAdapter.notifyDataSetChanged();
@@ -241,7 +252,8 @@ public class MainActivity extends AppCompatActivity implements EmpAdapter.EmpDU 
         }
         return super.onOptionsItemSelected(item);
     }
-    private  void sort(){
+
+    private void sort() {
 
         Collections.sort(emplist, new Comparator<Employee>() {
             @Override

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -47,24 +48,18 @@ public class Update_activity extends AppCompatActivity {
                     radioButton = findViewById(gid);
                     Gender = radioButton.getText().toString();
                 }
-                String Name=ub.empNameUId.getText().toString();
-                String Salary=ub.empSalaryUId.getText().toString();
-                if (Name.isEmpty())
-                {
+                String Name = ub.empNameUId.getText().toString();
+                String Salary = ub.empSalaryUId.getText().toString();
+                if (Name.isEmpty()) {
                     Toast.makeText(Update_activity.this, "fill the Name", Toast.LENGTH_SHORT).show();
-                }
-                else  if (Salary.isEmpty())
-                {
+                } else if (Salary.isEmpty()) {
                     Toast.makeText(Update_activity.this, "Fill the Salary", Toast.LENGTH_SHORT).show();
-                }
-                else if (ub.empRadioGroupId.getCheckedRadioButtonId()==-1)
-                {
+                } else if (ub.empRadioGroupId.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(Update_activity.this, "select gender", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                } else {
                     Employee employeeup = new Employee(employee.getId(), ub.empNameUId.getText().toString(), ub.empSalaryUId.getText().toString(), ub.empDobUId.getText().toString(), Gender);
                     employeeDAO.update_emp(employeeup);
+                    startActivity(new Intent(Update_activity.this, MainActivity.class));
                     finish();
                 }
 
